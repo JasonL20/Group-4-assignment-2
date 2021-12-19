@@ -1,15 +1,22 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 price_demand = pd.read_csv("price_demand_data.csv")
 weather = pd.read_csv('weather_data.csv')
+
 price_demand.tail()
+
 weather.tail()
+
 price_demand['Date'] = price_demand['SETTLEMENTDATE'].apply(lambda x: x.split()[0])  #split date and add Date column
 price_demand.head(50)
+
 data = price_demand.merge(weather, left_on = 'Date', right_on = 'Date')  #merge two data frame
+
 data1 = data.drop(['REGION', 'SETTLEMENTDATE'], axis = 'columns' )  
 #drop the column not relevant.(all data are in VIC, no need for this column, settlementdate can refer to Date column. name new df data1
+
 data1['Month']= data1['Date'].apply(lambda x:x.split('/')[1])  # create Month column 
 
 
@@ -77,11 +84,14 @@ corr('9am relative humidity (%)')  #low correlation
 FEATURES = ['Minimum temperature (°C)', '9am Temperature (°C)', '9am cloud amount (oktas)']
 data2[FEATURES].corr(method='pearson')
 
+
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
+
 data2 = data2.dropna()  # drop the rows with blank and string
+
 
 # pick top 3 features
 X = data2[['Minimum temperature (°C)', 'Evaporation (mm)', '9am cloud amount (oktas)']]
@@ -94,6 +104,7 @@ X_train, X_test, y_train, y_test = train_test_split(X.values, y.values, test_siz
 # build linear regression model
 lm = LinearRegression().fit(X_train, y_train)
 y_pred = lm.predict(X_test)
+
 
 #check output
 y_test[:5], y_pred[:5]
