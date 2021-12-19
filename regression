@@ -127,5 +127,5 @@ MSE = mean_squared_error(y_test, y_pred)
 R2 = lm.score(X_test, y_test)
 MSE, R2
 
-# outcome is worse, use the the first model is the best although it is not good enough
+# outcome is worse, use the the first model which is the best so far, although it is not good enough
 
